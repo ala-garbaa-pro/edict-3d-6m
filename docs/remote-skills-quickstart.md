@@ -1,51 +1,51 @@
-# 远程 Skills 快速入门
+# Remote Skills Quickstart
 
-## 5 分钟体验
+## 5-Minute Walkthrough
 
-### 1. 启动服务器
+### 1. Start the server
 
 ```bash
-# 确保你在项目根目录
+# Make sure you are in the project root
 python3 dashboard/server.py
-# 输出: 三省六部看板启动 → http://127.0.0.1:7891
+# Expected output: dashboard server started at http://127.0.0.1:7891
 ```
 
-### 2. 添加官方 Skill（CLI）
+### 2. Add an official skill from the CLI
 
 ```bash
-# 为中书省添加代码审查 skill
+# Add the code review skill to zhongshu
 python3 scripts/skill_manager.py add-remote \
   --agent zhongshu \
   --name code_review \
   --source https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/code_review/SKILL.md \
-  --description "代码审查能力"
+  --description "Code review capability"
 
-# 输出:
-# ⏳ 正在从 https://raw.githubusercontent.com/... 下载...
-# ✅ 技能 code_review 已添加到 zhongshu
-#    路径: /Users/xxx/.openclaw/workspace-zhongshu/skills/code_review/SKILL.md
-#    大小: 2048 字节
+# Example output:
+# ⏳ Downloading from https://raw.githubusercontent.com/...
+# ✅ Added skill code_review to zhongshu
+#    Path: /Users/xxx/.openclaw/workspace-zhongshu/skills/code_review/SKILL.md
+#    Size: 2048 bytes
 ```
 
-### 3. 列出所有远程 Skills
+### 3. List all remote skills
 
 ```bash
 python3 scripts/skill_manager.py list-remote
 
-# 输出:
-# 📋 共 1 个远程 skills：
+# Example output:
+# 📋 1 remote skill found:
 # 
-# Agent       | Skill 名称           | 描述                           | 添加时间
+# Agent       | Skill name           | Description                    | Added at
 # ------------|----------------------|--------------------------------|----------
-# zhongshu    | code_review          | 代码审查能力                   | 2026-03-02
+# zhongshu    | code_review          | Code review capability         | 2026-03-02
 ```
 
-### 4. 查看 API 响应
+### 4. Inspect the API response
 
 ```bash
 curl http://localhost:7891/api/remote-skills-list | jq .
 
-# 输出:
+# Example output:
 # {
 #   "ok": true,
 #   "remoteSkills": [
@@ -53,7 +53,7 @@ curl http://localhost:7891/api/remote-skills-list | jq .
 #       "skillName": "code_review",
 #       "agentId": "zhongshu",
 #       "sourceUrl": "https://raw.githubusercontent.com/...",
-#       "description": "代码审查能力",
+#       "description": "Code review capability",
 #       "localPath": "/Users/xxx/.openclaw/workspace-zhongshu/skills/code_review/SKILL.md",
 #       "addedAt": "2026-03-02T14:30:00Z",
 #       "lastUpdated": "2026-03-02T14:30:00Z",
@@ -67,116 +67,116 @@ curl http://localhost:7891/api/remote-skills-list | jq .
 
 ---
 
-## 常见操作
+## Common Operations
 
-### 一键导入官方库中的所有 skills
+### Import official skills in one shot
 
 ```bash
 python3 scripts/skill_manager.py import-official-hub \
   --agents zhongshu,menxia,shangshu,bingbu,xingbu
 ```
 
-这会自动为每个 agent 添加：
-- **zhongshu**: code_review, api_design, doc_generation
-- **menxia**: code_review, api_design, security_audit, data_analysis, doc_generation, test_framework
-- **shangshu**: 同 menxia（协调者）
-- **bingbu**: code_review, api_design, test_framework
-- **xingbu**: code_review, security_audit, test_framework
+This imports a curated set of skills for each agent:
+- `zhongshu`: `code_review`, `api_design`, `doc_generation`
+- `menxia`: `code_review`, `api_design`, `security_audit`, `data_analysis`, `doc_generation`, `test_framework`
+- `shangshu`: same set as `menxia`
+- `bingbu`: `code_review`, `api_design`, `test_framework`
+- `xingbu`: `code_review`, `security_audit`, `test_framework`
 
-### 更新某个 Skill 到最新版本
+### Update a skill to the latest version
 
 ```bash
 python3 scripts/skill_manager.py update-remote \
   --agent zhongshu \
   --name code_review
 
-# 输出:
-# ⏳ 正在从 https://raw.githubusercontent.com/... 下载...
-# ✅ 技能 code_review 已添加到 zhongshu
-# ✅ 技能已更新
-#    路径: /Users/xxx/.openclaw/workspace-zhongshu/skills/code_review/SKILL.md
-#    大小: 2156 字节
+# Example output:
+# ⏳ Downloading from https://raw.githubusercontent.com/...
+# ✅ Added skill code_review to zhongshu
+# ✅ Skill updated
+#    Path: /Users/xxx/.openclaw/workspace-zhongshu/skills/code_review/SKILL.md
+#    Size: 2156 bytes
 ```
 
-### 移除某个 Skill
+### Remove a skill
 
 ```bash
 python3 scripts/skill_manager.py remove-remote \
   --agent zhongshu \
   --name code_review
 
-# 输出:
-# ✅ 技能 code_review 已从 zhongshu 移除
+# Example output:
+# ✅ Removed skill code_review from zhongshu
 ```
 
 ---
 
-## 看板 UI 操作
+## Dashboard UI Workflow
 
-### 在看板中添加 Remote Skill
+### Add a remote skill from the dashboard
 
 1. 打开 http://localhost:7891
-2. 进入 🔧 **技能配置** 面板
-3. 点击 **➕ 添加远程 Skill** 按钮
-4. 填写表单：
-   - **Agent**: 从下拉列表选择（如 zhongshu）
-   - **Skill 名称**: 输入内部 ID 如 `code_review`
-   - **远程 URL**: 粘贴 GitHub URL 如 `https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/code_review/SKILL.md`
-   - **中文描述**: 可选，如 `代码审查能力`
-5. 点击 **导入** 按钮
-6. 等待 1-2 秒，看到 ✅ 成功提示
+2. Go to the `Skills` panel
+3. Click `Add Remote Skill`
+4. Fill in:
+   - `Agent`: target agent, for example `zhongshu`
+   - `Skill name`: internal ID such as `code_review`
+   - `Remote URL`: a GitHub raw URL or another HTTPS source
+   - `Description`: optional short label
+5. Click `Import`
+6. Wait 1-2 seconds for the success message
 
-### 管理已添加的 Skills
+### Manage imported skills
 
-在看板 → 🔧 技能配置 → **远程 Skills** 标签页：
+In Dashboard → `Skills` → `Remote Skills`:
 
-- **查看**: 点击 Skill 名称查看 SKILL.md 内容
-- **更新**: 点击 🔄 重新从源 URL 下载最新版本
-- **删除**: 点击 ✕ 移除本地副本
-- **复制 URL**: 快速分享给他人
+- `View`: inspect the `SKILL.md`
+- `Update`: download the latest version again from the source URL
+- `Delete`: remove the local copy
+- `Copy URL`: share the source quickly
 
 ---
 
-## 创建自己的 Skill 库
+## Create Your Own Skill Hub
 
-### 目录结构
+### Directory layout
 
 ```
 my-skills-hub/
 ├── code_review/
-│   └── SKILL.md          # 代码审查能力
+│   └── SKILL.md
 ├── api_design/
-│   └── SKILL.md          # API 设计审查
+│   └── SKILL.md
 ├── data_analysis/
-│   └── SKILL.md          # 数据分析
+│   └── SKILL.md
 └── README.md
 ```
 
-### SKILL.md 模板
+### SKILL.md template
 
 ```markdown
 ---
 name: my_custom_skill
-description: 简短描述
+description: Short description
 version: 1.0.0
 tags: [tag1, tag2]
 ---
 
-# Skill 完整名称
+# Full skill name
 
-详细描述...
+Detailed description...
 
-## 输入
+## Input
 
-说明接收什么参数
+Describe accepted parameters
 
-## 处理流程
+## Process
 
-具体步骤...
+Steps...
 
-## 输出规范
+## Output
 
-输出格式说明
+Expected output format
 ```
 
 ### 上传到 GitHub
@@ -333,4 +333,3 @@ ls -la ~/.openclaw/workspace-zhongshu/skills/
 - 📚 [完整指南](remote-skills-guide.md)
 - 🏛️ [架构文档](task-dispatch-architecture.md)
 - 🤝 [项目贡献](../CONTRIBUTING.md)
-

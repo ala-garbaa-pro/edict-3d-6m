@@ -1,18 +1,19 @@
-# 📂 案例 / Examples
+# Examples
 
-真实的端到端使用案例，展示三省六部处理完整旨意的全流程。
+Real end-to-end examples that show how Edict handles a full command lifecycle.
 
-| # | 案例 | 旨意内容 | 涉及部门 | 复杂度 |
+| # | Example | Command | Departments | Complexity |
 |---|------|---------|----------|--------|
-| 1 | [竞品分析](competitive-analysis.md) | "分析 CrewAI vs AutoGen vs LangGraph" | 中书→门下→户部+兵部+礼部 | ⭐⭐⭐ |
-| 2 | [代码审查](code-review.md) | "审查 FastAPI 代码的安全性" | 中书→门下→兵部+刑部 | ⭐⭐ |
-| 3 | [周报生成](weekly-report.md) | "生成本周工程团队周报" | 中书→门下→户部+礼部 | ⭐⭐ |
+| 1 | [Competitive Analysis](competitive-analysis.md) | "Compare CrewAI vs AutoGen vs LangGraph" | Zhongshu → Menxia → Hubu + Bingbu + Libu | ⭐⭐⭐ |
+| 2 | [Code Review](code-review.md) | "Review FastAPI code for security issues" | Zhongshu → Menxia → Bingbu + Xingbu | ⭐⭐ |
+| 3 | [Weekly Report](weekly-report.md) | "Generate this week's engineering report" | Zhongshu → Menxia → Hubu + Libu | ⭐⭐ |
 
-每个案例包含：
-- 📜 **圣旨**：原始指令
-- 📋 **中书省规划**：任务拆解方案
-- 🔍 **门下省审议**：审核意见（含封驳/返工记录）
-- ⚔️ **各部执行结果**：每个部门的产出摘要
-- 📮 **最终奏折**：尚书省汇总的完整报告
+Each example includes:
 
-> 💡 这些案例基于真实运行记录整理，任务 ID 和时间戳已脱敏。
+- the original command
+- the Zhongshu planning breakdown
+- the Menxia review decision
+- execution outputs from each department
+- the final memorial compiled by Shangshu
+
+These examples are based on real runs. Task IDs and timestamps have been anonymized.

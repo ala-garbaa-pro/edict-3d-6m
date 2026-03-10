@@ -1,139 +1,140 @@
-# 案例 2：代码安全审查
+# Example 2: FastAPI Security Review
 
-> **旨意**：审查一段 FastAPI 代码的安全性，输出问题清单和修复建议
-
----
-
-## 📜 圣旨（原始指令）
-
-```
-审查以下 FastAPI 代码的安全性，重点关注：
-1. 认证与授权漏洞
-2. SQL 注入风险
-3. 输入验证
-4. 敏感信息泄露
-给出问题清单（按严重性排序）和修复代码。
-
-[附件：app/main.py, app/models.py, app/auth.py — 合计 320 行]
-```
-
-**旨意 ID**：`JJC-20260221-007`
-**下旨时间**：2026-02-21 14:30:00
+> **Command:** Review a FastAPI codebase for security issues and produce a prioritized finding list plus fixes.
 
 ---
 
-## 📋 中书省规划
+## Original Command
 
-> 接旨后 30 秒内完成规划
+```
+Review the following FastAPI code for security issues, focusing on:
+1. authentication and authorization flaws
+2. SQL injection risk
+3. input validation
+4. sensitive data exposure
 
-**规划方案：**
+Return a finding list ordered by severity and include fixes.
 
-| # | 子任务 | 派发部门 | 说明 |
+[Attachments: app/main.py, app/models.py, app/auth.py — 320 LOC total]
+```
+
+**Task ID:** `JJC-20260221-007`
+**Issued at:** 2026-02-21 14:30:00
+
+---
+
+## Zhongshu Planning
+
+Planning completed within 30 seconds.
+
+**Plan**
+
+| # | Subtask | Department | Notes |
 |---|--------|----------|------|
-| 1 | 代码安全扫描 | ⚔️ 兵部 | 逐文件审查，标记安全问题 |
-| 2 | 合规与最佳实践检查 | ⚖️ 刑部 | 对照 OWASP Top 10 检查合规性 |
-| 3 | 修复方案输出 | ⚔️ 兵部 | 针对每个问题给出修复代码 |
+| 1 | Code security scan | Bingbu | Inspect each file and flag issues |
+| 2 | Compliance and best-practice review | Xingbu | Review against OWASP Top 10 |
+| 3 | Fix output | Bingbu | Produce concrete fixes per issue |
 
-**预计耗时**：12 分钟
-**预计 Token**：~9,000
-
----
-
-## 🔍 门下省审议
-
-> ⏱️ 审议耗时 18 秒
-
-### 准奏 ✅（首轮通过）
-
-**门下省批语：** *"方案合理。兵部负责工程侧审查，刑部负责合规侧审查，分工明确。注意刑部需出具 OWASP 逐项对照表，不能只写'基本合规'。准奏。"*
+**Estimated duration:** 12 minutes  
+**Estimated tokens:** ~9,000
 
 ---
 
-## ⚔️ 各部执行结果
+## Menxia Review
 
-### 兵部 · 代码安全扫描（耗时 5 分钟）
+Review duration: 18 seconds.
 
-**扫描发现 6 个问题：**
+### Approved on the first round
 
-| # | 严重性 | 文件 | 问题 |
+**Review note:** *"The division of work is sound. Bingbu handles engineering-side review, Xingbu handles compliance review. Xingbu must provide a line-by-line OWASP mapping rather than a vague 'mostly compliant' summary. Approved."*
+
+---
+
+## Department Outputs
+
+### Bingbu: code security scan (5 minutes)
+
+**Six issues found**
+
+| # | Severity | File | Issue |
 |---|--------|------|------|
-| 1 | 🔴 严重 | auth.py:23 | JWT secret 硬编码在源码中 |
-| 2 | 🔴 严重 | main.py:45 | SQL 查询使用 f-string 拼接，存在注入风险 |
-| 3 | 🟠 高危 | main.py:67 | 用户输入未做长度限制，可造成 DoS |
-| 4 | 🟠 高危 | auth.py:41 | Token 过期时间设为 30 天，过长 |
-| 5 | 🟡 中危 | main.py:12 | CORS 设置为 `allow_origins=["*"]` |
-| 6 | 🟡 中危 | models.py:8 | 密码字段未排除在 response_model 之外 |
+| 1 | Critical | auth.py:23 | JWT secret is hardcoded in source |
+| 2 | Critical | main.py:45 | SQL query uses f-string interpolation |
+| 3 | High | main.py:67 | User input has no length limit |
+| 4 | High | auth.py:41 | Token expiration is set to 30 days |
+| 5 | Medium | main.py:12 | CORS uses `allow_origins=["*"]` |
+| 6 | Medium | models.py:8 | Password field is exposed in response output |
 
-### 刑部 · OWASP 合规检查（耗时 4 分钟）
+### Xingbu: OWASP compliance check (4 minutes)
 
-**OWASP Top 10 逐项对照：**
+**OWASP Top 10 mapping**
 
-| OWASP 编号 | 类别 | 状态 | 说明 |
+| OWASP ID | Category | Status | Notes |
 |-----------|------|------|------|
-| A01 | Broken Access Control | 🟠 部分合规 | 有 JWT 但缺少角色粒度校验 |
-| A02 | Cryptographic Failures | 🔴 不合规 | Secret 硬编码 |
-| A03 | Injection | 🔴 不合规 | SQL 拼接 |
-| A04 | Insecure Design | ✅ 合规 | 整体架构合理 |
-| A05 | Security Misconfiguration | 🟡 需改进 | CORS 过宽 |
-| A06 | Vulnerable Components | ✅ 合规 | 依赖版本较新 |
-| A07 | Auth Failures | 🟠 部分合规 | Token 过期时间过长 |
-| A08 | Data Integrity | ✅ 合规 | — |
-| A09 | Logging Failures | 🟡 需改进 | 缺少安全事件日志 |
-| A10 | SSRF | ✅ 合规 | 无外部请求 |
+| A01 | Broken Access Control | Partial | JWT exists but role-level authorization is missing |
+| A02 | Cryptographic Failures | Failing | Secret is hardcoded |
+| A03 | Injection | Failing | SQL interpolation |
+| A04 | Insecure Design | Pass | Overall architecture is reasonable |
+| A05 | Security Misconfiguration | Needs improvement | CORS is too broad |
+| A06 | Vulnerable Components | Pass | Dependencies are relatively current |
+| A07 | Identification and Authentication Failures | Partial | Token lifetime is too long |
+| A08 | Software and Data Integrity Failures | Pass | No major issue found |
+| A09 | Security Logging and Monitoring Failures | Needs improvement | Security event logging is missing |
+| A10 | SSRF | Pass | No external request path found |
 
-**刑部结论：** 6/10 项需要处理，其中 2 项不合规（A02、A03），需立即修复。
+**Xingbu conclusion:** 6 of 10 areas need action, including two failing categories that should be fixed immediately.
 
-### 兵部 · 修复代码（耗时 3 分钟）
+### Bingbu: fixes (3 minutes)
 
 ```python
-# 修复 #1: auth.py — JWT secret 从环境变量读取
+# Fix #1: auth.py - load JWT secret from environment
 import os
-JWT_SECRET = os.environ["JWT_SECRET"]  # 不再硬编码
+JWT_SECRET = os.environ["JWT_SECRET"]
 
-# 修复 #2: main.py — 使用参数化查询
+# Fix #2: main.py - use parameterized SQL
 from sqlalchemy import text
 result = db.execute(text("SELECT * FROM users WHERE id = :id"), {"id": user_id})
 
-# 修复 #3: main.py — 添加输入长度限制
+# Fix #3: main.py - add input length limits
 from pydantic import Field
 class UserInput(BaseModel):
     name: str = Field(..., max_length=100)
     email: str = Field(..., max_length=255)
 
-# 修复 #4: auth.py — 缩短 Token 过期时间
-ACCESS_TOKEN_EXPIRE = timedelta(hours=1)  # 从 30 天改为 1 小时
+# Fix #4: auth.py - reduce token lifetime
+ACCESS_TOKEN_EXPIRE = timedelta(hours=1)
 
-# 修复 #5: main.py — 收紧 CORS
+# Fix #5: main.py - tighten CORS
 app.add_middleware(CORSMiddleware, allow_origins=["https://yourdomain.com"])
 
-# 修复 #6: models.py — 密码字段排除
+# Fix #6: models.py - exclude password from response model
 class UserResponse(BaseModel):
     id: int
     name: str
     email: str
-    # password 字段不在此 model 中
+    # password is intentionally omitted
 ```
 
 ---
 
-## 📮 最终奏折（尚书省汇总）
+## Final Memorial
 
-**奏折 ID**：`JJC-20260221-007`
-**总耗时**：14 分钟（规划 1 + 审议 0.5 + 执行 12.5）
-**总 Token**：8,200
+**Memorial ID:** `JJC-20260221-007`  
+**Total duration:** 14 minutes  
+**Total tokens:** 8,200
 
-### 执行摘要
+### Summary
 
-对 320 行 FastAPI 代码完成安全审查。发现 6 个安全问题（2 严重 / 2 高危 / 2 中危），OWASP Top 10 中有 2 项不合规。已提供全部 6 个问题的修复代码。
+The system reviewed 320 lines of FastAPI code and found 6 security issues: 2 critical, 2 high, and 2 medium. Two OWASP categories were non-compliant. Fixes were provided for all six findings.
 
-门下省首轮即准奏，兵部和刑部分工明确：兵部负责代码层面扫描和修复，刑部负责合规框架对照。
+Menxia approved the plan on the first round. Bingbu covered code-level review and fixes, while Xingbu handled standards and compliance review.
 
-### 建议优先级
+### Suggested priority
 
-1. **立即修复**：JWT secret 硬编码 + SQL 注入（上线前必须解决）
-2. **本周内**：输入长度限制 + Token 过期时间
-3. **下个迭代**：CORS 收紧 + 密码字段暴露
+1. **Immediate:** hardcoded JWT secret and SQL injection risk
+2. **This week:** input length limits and token expiration policy
+3. **Next iteration:** CORS restrictions and response-model cleanup
 
 ---
 
-*本案例基于真实运行记录整理，代码内容已脱敏。*
+*Based on a real run. Code content has been redacted.*

@@ -1,48 +1,45 @@
-# 远程 Skills 资源管理指南
+# Remote Skills Management Guide
 
-## 概述
+## Overview
 
-三省六部现已支持从网上连接和增补 skills 资源，无需手动复制文件。支持从以下来源获取：
+Edict can install and manage skill resources from remote sources without manual file copying. Supported sources include:
 
-- **GitHub 仓库** (raw.githubusercontent.com)
-- **任何 HTTPS URL** (需返回有效的 skill 文件)
-- **本地文件路径**
-- **内置仓库** (官方 skills 库)
+- GitHub raw URLs
+- any HTTPS URL that returns a valid skill file
+- local file paths
+- the built-in official skills hub
 
 ---
 
-## 功能架构
+## Feature Layout
 
-### 1. API 端点
+### 1. API Endpoints
 
 #### `POST /api/add-remote-skill`
 
-从远程 URL 或本地路径为指定 Agent 添加 skill。
+Add a skill for a specific agent from a remote URL or local path.
 
-**请求体：**
+**Request body**
 ```json
 {
   "agentId": "zhongshu",
   "skillName": "code_review",
   "sourceUrl": "https://raw.githubusercontent.com/org/skills-repo/main/code_review/SKILL.md",
-  "description": "代码审查专项技能"
+  "description": "Code review skill"
 }
 ```
 
-**参数说明：**
-- `agentId` (string, 必需): 目标 Agent ID (验证有效性)
-- `skillName` (string, 必需): skill 的内部名称 (仅允许字母/数字/下划线/汉字)
-- `sourceUrl` (string, 必需): 远程 URL 或本地文件路径
-  - GitHub: `https://raw.githubusercontent.com/user/repo/branch/path/SKILL.md`
-  - 任意 HTTPS: `https://example.com/skills/my_skill.md`
-  - 本地: `file:///Users/bingsen/skills/code_review.md` 或 `/Users/bingsen/skills/code_review.md`
-- `description` (string, 可选): skill 的中文描述
+**Parameters**
+- `agentId` (string, required): target agent ID
+- `skillName` (string, required): internal skill name
+- `sourceUrl` (string, required): remote URL or local file path
+- `description` (string, optional): short description
 
-**响应成功 (200)：**
+**Success response**
 ```json
 {
   "ok": true,
-  "message": "技能 code_review 已添加到 zhongshu",
+  "message": "Added code_review to zhongshu",
   "skillName": "code_review",
   "agentId": "zhongshu",
   "source": "https://raw.githubusercontent.com/...",
@@ -52,18 +49,18 @@
 }
 ```
 
-**响应失败 (400)：**
+**Failure response**
 ```json
 {
   "ok": false,
-  "error": "URL 无效或无法访问",
+  "error": "URL is invalid or unreachable",
   "details": "Connection timeout after 10s"
 }
 ```
 
 #### `GET /api/remote-skills-list`
 
-列出所有已添加的远程 skills 及其源信息。
+List all imported remote skills and their source metadata.
 
 **响应：**
 ```json
@@ -74,10 +71,10 @@
       "skillName": "code_review",
       "agentId": "zhongshu",
       "sourceUrl": "https://raw.githubusercontent.com/org/skills-repo/main/code_review/SKILL.md",
-      "description": "代码审查专项技能",
+      "description": "Code review skill",
       "localPath": "/Users/bingsen/.openclaw/workspace-zhongshu/skills/code_review/SKILL.md",
       "lastUpdated": "2026-03-02T14:30:00Z",
-      "status": "valid"  // valid | invalid | not-found
+      "status": "valid"
     }
   ],
   "count": 5
@@ -86,7 +83,7 @@
 
 #### `POST /api/update-remote-skill`
 
-更新已添加的远程 skill 为最新版本。
+Update an imported remote skill to the latest source version.
 
 **请求体：**
 ```json
@@ -100,7 +97,7 @@
 ```json
 {
   "ok": true,
-  "message": "技能已更新",
+  "message": "Skill updated",
   "skillName": "code_review",
   "newVersion": "2.1.0",
   "updatedAt": "2026-03-02T15:00:00Z"
@@ -109,7 +106,7 @@
 
 #### `DELETE /api/remove-remote-skill`
 
-移除已添加的远程 skill。
+Remove an imported remote skill.
 
 **请求体：**
 ```json
@@ -121,25 +118,25 @@
 
 ---
 
-## CLI 命令
+## CLI Commands
 
-### 添加远程 Skill
+### Add a remote skill
 
 ```bash
 python3 scripts/skill_manager.py add-remote \
   --agent zhongshu \
   --name code_review \
   --source https://raw.githubusercontent.com/org/skills-repo/main/code_review/SKILL.md \
-  --description "代码审查专项技能"
+  --description "Code review skill"
 ```
 
-### 列出远程 Skills
+### List remote skills
 
 ```bash
 python3 scripts/skill_manager.py list-remote
 ```
 
-### 更新远程 Skill
+### Update a remote skill
 
 ```bash
 python3 scripts/skill_manager.py update-remote \
@@ -147,7 +144,7 @@ python3 scripts/skill_manager.py update-remote \
   --name code_review
 ```
 
-### 移除远程 Skill
+### Remove a remote skill
 
 ```bash
 python3 scripts/skill_manager.py remove-remote \
@@ -157,24 +154,24 @@ python3 scripts/skill_manager.py remove-remote \
 
 ---
 
-## 官方 Skills 库
+## Official Skills Hub
 
 ### OpenClaw Skills Hub
 
-> **官方 skills 库地址**: https://github.com/openclaw-ai/skills-hub
+Official hub: https://github.com/openclaw-ai/skills-hub
 
-可用 skills 列表：
+Available skills:
 
-| Skill 名称 | 描述 | 适用 Agent | 源 URL |
+| Skill | Description | Typical agents | Source URL |
 |-----------|------|----------|--------|
-| `code_review` | 代码审查（支持 Python/JS/Go） | 兵部/刑部 | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/code_review/SKILL.md |
-| `api_design` | API 设计审查 | 兵部/工部 | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/api_design/SKILL.md |
-| `security_audit` | 安全审计 | 刑部 | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/security_audit/SKILL.md |
-| `data_analysis` | 数据分析 | 户部 | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/data_analysis/SKILL.md |
-| `doc_generation` | 文档生成 | 礼部 | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/doc_generation/SKILL.md |
-| `test_framework` | 测试框架设计 | 工部/刑部 | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/test_framework/SKILL.md |
+| `code_review` | Code review for Python/JS/Go | Bingbu / Xingbu | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/code_review/SKILL.md |
+| `api_design` | API design review | Bingbu / Gongbu | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/api_design/SKILL.md |
+| `security_audit` | Security auditing | Xingbu | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/security_audit/SKILL.md |
+| `data_analysis` | Data analysis | Hubu | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/data_analysis/SKILL.md |
+| `doc_generation` | Document generation | Libu | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/doc_generation/SKILL.md |
+| `test_framework` | Test framework design | Gongbu / Xingbu | https://raw.githubusercontent.com/openclaw-ai/skills-hub/main/test_framework/SKILL.md |
 
-**一键导入官方 skills**
+**Import the official set**
 
 ```bash
 python3 scripts/skill_manager.py import-official-hub \
@@ -183,36 +180,30 @@ python3 scripts/skill_manager.py import-official-hub \
 
 ---
 
-## 看板 UI 操作
+## Dashboard UI Workflow
 
-### 快捷添加 Skill
+### Quick add flow
 
-1. 打开看板 → 🔧 **技能配置** 面板
-2. 点击 **➕ 添加远程 Skill** 按钮
-3. 填写表单：
-   - **Agent**: 选择目标 Agent
-   - **Skill 名称**: 输入 skill 的内部 ID
-   - **远程 URL**: 粘贴 GitHub/HTTPS URL
-   - **中文描述**: 可选，简述 skill 功能
-4. 点击 **确认** 按钮
+1. Open the dashboard and go to the `Skills` panel.
+2. Click `Add Remote Skill`.
+3. Fill in the target agent, skill name, source URL, and optional description.
+4. Confirm the import.
 
-### 管理已添加的 Skills
+### Manage imported skills
 
-1. 看板 → 🔧 **技能配置** → **远程 Skills** 标签
-2. 查看已添加的所有 skills 及其源地址
-3. 操作：
-   - **查看**: 展示 SKILL.md 内容
-   - **更新**: 从源 URL 重新下载最新版本
-   - **删除**: 移除本地副本（不影响源）
-   - **复制源 URL**: 快速分享给他人
+Available actions:
+- view the current `SKILL.md`
+- update from the source URL
+- remove the local copy
+- copy the source URL
 
 ---
 
-## Skill 文件规范
+## Skill File Format
 
-远程 skills 必须遵循标准的 Markdown 格式：
+Remote skills should follow a standard Markdown structure.
 
-### 最小必需结构
+### Minimum structure
 
 ```markdown
 ---
@@ -222,42 +213,42 @@ version: 1.0.0
 tags: [tag1, tag2]
 ---
 
-# Skill 名称
+# Skill name
 
-详细描述...
+Detailed description...
 
-## 输入
+## Input
 
-说明接收什么参数
+Describe accepted parameters
 
-## 处理流程
+## Process
 
-具体步骤...
+List the steps
 
-## 输出规范
+## Output
 
-输出格式说明
+Describe the expected output format
 ```
 
-### 完整示例
+### Full example
 
 ```markdown
 ---
 name: code_review
-description: 对 Python/JavaScript 代码进行结构审查和优化建议
+description: Review Python or JavaScript code and propose improvements
 version: 2.1.0
 author: openclaw-ai
 tags: [code-quality, security, performance]
 compatibleAgents: [bingbu, xingbu, menxia]
 ---
 
-# 代码审查技能
+# Code Review Skill
 
-本技能专门用于对生产代码进行多维度审查...
+This skill is intended for multi-dimensional review of production code...
 
-## 输入
+## Input
 
-- `code`: 要审查的源代码
+- `code`: source code to review
 - `language`: 编程语言 (python, javascript, go, rust)
 - `focusAreas`: 审查重点 (security, performance, style, structure)
 

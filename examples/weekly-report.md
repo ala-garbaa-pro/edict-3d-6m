@@ -1,147 +1,147 @@
-# 案例 3：周报生成
+# Example 3: Weekly Report
 
-> **旨意**：生成本周工程团队周报，汇总进度、问题和下周计划
-
----
-
-## 📜 圣旨（原始指令）
-
-```
-生成本周（2/17-2/21）工程团队周报。
-数据来源：GitHub commits、PR 记录、Jira tickets。
-包含：本周完成事项、进行中事项、blocker、下周计划。
-格式：Markdown，适合贴到飞书文档。
-```
-
-**旨意 ID**：`JJC-20260221-012`
-**下旨时间**：2026-02-21 17:00:00
+> **Command:** Generate this week's engineering team report with progress, blockers, and next steps.
 
 ---
 
-## 📋 中书省规划
+## Original Command
 
-> 接旨后 25 秒内完成规划
+```
+Generate the engineering team report for this week (2/17-2/21).
+Data sources: GitHub commits, PR history, and Jira tickets.
+Include completed work, work in progress, blockers, and next week's plan.
+Format: Markdown suitable for Feishu docs.
+```
 
-**规划方案：**
+**Task ID:** `JJC-20260221-012`  
+**Issued at:** 2026-02-21 17:00:00
 
-| # | 子任务 | 派发部门 | 说明 |
+---
+
+## Zhongshu Planning
+
+Planning completed within 25 seconds.
+
+**Plan**
+
+| # | Subtask | Department | Notes |
 |---|--------|----------|------|
-| 1 | 数据采集与聚合 | 💰 户部 | 从 GitHub + Jira 抓取本周数据 |
-| 2 | 周报文档撰写 | 📝 礼部 | 按模板格式整理为 Markdown |
+| 1 | Data collection and aggregation | Hubu | Pull weekly data from GitHub and Jira |
+| 2 | Weekly report writing | Libu | Format the report in Markdown |
 
-**预计耗时**：8 分钟
-**预计 Token**：~5,000
-
----
-
-## 🔍 门下省审议
-
-> ⏱️ 审议耗时 15 秒
-
-### 准奏 ✅（首轮通过）
-
-**门下省批语：** *"方案简洁可行。两步走：户部拉数据，礼部写文档。注意礼部输出需严格遵循飞书文档格式要求（标题层级、checkbox 格式）。准奏。"*
+**Estimated duration:** 8 minutes  
+**Estimated tokens:** ~5,000
 
 ---
 
-## ⚔️ 各部执行结果
+## Menxia Review
 
-### 户部 · 数据采集（耗时 3 分钟）
+Review duration: 15 seconds.
 
-**本周 GitHub 数据汇总：**
+### Approved on the first round
 
-| 指标 | 数量 |
+**Review note:** *"Simple and workable. Hubu collects the data, Libu writes the document. Libu must strictly follow Feishu document formatting, including heading structure and checkbox formatting. Approved."*
+
+---
+
+## Department Outputs
+
+### Hubu: data collection (3 minutes)
+
+**Weekly GitHub summary**
+
+| Metric | Count |
 |------|------|
 | Commits | 47 |
 | PRs Merged | 12 |
 | PRs Open | 3 |
 | Issues Closed | 8 |
 | Issues Open | 5 |
-| 最活跃贡献者 | @zhangsan (18 commits) |
+| Most active contributor | @zhangsan (18 commits) |
 
-**本周 Jira 数据汇总：**
+**Weekly Jira summary**
 
-| 状态 | Tickets |
+| Status | Tickets |
 |------|---------|
 | Done | 15 |
 | In Progress | 7 |
 | Blocked | 2 |
-| To Do（下周） | 9 |
+| To Do (next week) | 9 |
 
-**Blockers 识别：**
-1. `PROJ-234`：第三方 API 限流，等待对方提升配额（blocked 3 天）
-2. `PROJ-251`：设计稿未定稿，前端被 block
+**Blockers**
+1. `PROJ-234`: third-party API rate limit, waiting for a quota increase
+2. `PROJ-251`: design spec not finalized, blocking frontend work
 
-### 礼部 · 周报文档（耗时 4 分钟）
-
----
-
-## 📮 最终奏折（尚书省汇总）
-
-**奏折 ID**：`JJC-20260221-012`
-**总耗时**：8 分钟（规划 0.5 + 审议 0.5 + 执行 7）
-**总 Token**：4,600
-
-### 产出：周报全文
+### Libu: weekly report document (4 minutes)
 
 ---
 
-# 📊 工程团队周报 · 2026/02/17 — 02/21
+## Final Memorial
 
-## ✅ 本周完成
+**Memorial ID:** `JJC-20260221-012`  
+**Total duration:** 8 minutes  
+**Total tokens:** 4,600
 
-- [x] **用户认证模块重构** — JWT + Refresh Token 方案上线（@zhangsan, PR #142）
-- [x] **数据看板 v2** — 新增 3 个图表面板，性能优化 40%（@lisi, PR #138, #140）
-- [x] **CI/CD 流水线升级** — 构建时间从 8 分钟降至 3 分钟（@wangwu, PR #141）
-- [x] **API 文档自动生成** — OpenAPI 3.0 spec + Redoc 部署（@zhaoliu, PR #139）
-- [x] 其他：Bug 修复 ×4, 依赖升级 ×3, 测试覆盖率提升至 82%
+### Output: full weekly report
 
-**数据概览：** 47 commits · 12 PRs merged · 8 issues closed
+---
 
-## 🔄 进行中
+# Engineering Team Weekly Report · 2026/02/17 — 02/21
 
-- [ ] **支付系统集成**（60% 完成） — 对接支付宝 + 微信支付，预计下周三完成 (@zhangsan)
-- [ ] **国际化 i18n**（40% 完成） — 英文 + 日文翻译进行中 (@lisi)
-- [ ] **性能监控面板**（30% 完成） — Grafana 模板搭建中 (@wangwu)
+## Completed This Week
 
-## 🚧 Blockers
+- [x] **Authentication module refactor** — JWT + Refresh Token shipped (@zhangsan, PR #142)
+- [x] **Dashboard v2** — added three chart panels and improved performance by 40% (@lisi, PR #138, #140)
+- [x] **CI/CD pipeline upgrade** — build time reduced from 8 minutes to 3 (@wangwu, PR #141)
+- [x] **API doc generation** — OpenAPI 3.0 spec and Redoc deployment (@zhaoliu, PR #139)
+- [x] Other work: 4 bug fixes, 3 dependency upgrades, test coverage up to 82%
 
-| Ticket | 问题 | 已 block | 需要 |
+**Summary:** 47 commits, 12 merged PRs, 8 closed issues
+
+## In Progress
+
+- [ ] **Payment integration** (60%) — Alipay and WeChat Pay integration, expected next Wednesday (@zhangsan)
+- [ ] **Internationalization** (40%) — English and Japanese translations in progress (@lisi)
+- [ ] **Performance monitoring panel** (30%) — Grafana templates under construction (@wangwu)
+
+## Blockers
+
+| Ticket | Issue | Blocked for | Needed |
 |--------|------|----------|------|
-| PROJ-234 | 第三方 API 限流 | 3 天 | 对方运维提升配额 |
-| PROJ-251 | 设计稿未定稿 | 2 天 | 设计师 @chenseven 本周内定稿 |
+| PROJ-234 | Third-party API rate limit | 3 days | Vendor quota increase |
+| PROJ-251 | Design spec not finalized | 2 days | Final design from @chenseven |
 
-## 📅 下周计划
+## Next Week
 
-- [ ] 支付系统集成完成 + 沙箱测试
-- [ ] 国际化覆盖率达到 80%
-- [ ] 性能监控上线 + 告警配置
-- [ ] 开始 v3.0 技术方案设计
-- [ ] Code Review 积压清理（3 个 open PRs）
+- [ ] Finish payment integration and sandbox testing
+- [ ] Raise internationalization coverage to 80%
+- [ ] Launch performance monitoring and alerts
+- [ ] Start v3.0 technical design
+- [ ] Clear the code review backlog (3 open PRs)
 
-## 📈 团队健康度
+## Team Health
 
-| 指标 | 本周 | 上周 | 趋势 |
+| Metric | This week | Last week | Trend |
 |------|------|------|------|
-| PR 平均 Review 时间 | 4.2h | 6.1h | 📉 好转 |
-| 测试覆盖率 | 82% | 78% | 📈 提升 |
-| Bug 收敛比 | 1.5:1 | 1.2:1 | 📈 提升 |
-| 团队心情 | 😄 | 😐 | 好转 |
+| Average PR review time | 4.2h | 6.1h | Improved |
+| Test coverage | 82% | 78% | Up |
+| Bug resolution ratio | 1.5:1 | 1.2:1 | Up |
+| Team mood | 😄 | 😐 | Improved |
 
 ---
 
-*由三省六部自动生成 · 数据源：GitHub + Jira · 生成时间：2026-02-21 17:08*
+*Generated by Edict using GitHub and Jira data at 2026-02-21 17:08*
 
 ---
 
-### 三省六部的价值
+### Why This Matters
 
-这个案例展示了三省六部处理日常事务的效率：
-- **门下省首轮即通过** —— 简单任务不过度审核
-- **户部 + 礼部协作** —— 数据采集和文档撰写分离，各司其职
-- **8 分钟完成** —— 从下旨到拿到完整周报，不到一杯咖啡的时间
-- **格式即用** —— 直接复制到飞书文档，无需手动排版
+This example shows how well the system handles routine operational work:
+- Menxia approved the plan immediately because the task was simple and low-risk
+- Hubu and Libu split data collection from document writing cleanly
+- The full report was produced in 8 minutes
+- The output was ready to paste into Feishu without manual reformatting
 
 ---
 
-*本案例基于真实运行记录整理，人名和项目信息已脱敏。*
+*Based on a real run. Names and project identifiers have been anonymized.*

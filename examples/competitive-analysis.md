@@ -1,139 +1,140 @@
-# 案例 1：竞品分析
+# Example 1: Competitive Analysis
 
-> **旨意**：分析 CrewAI、AutoGen、LangGraph 三个多 Agent 框架，输出对比报告
+> **Command:** Compare CrewAI, AutoGen, and LangGraph and produce a structured report with recommendations.
 
 ---
 
-## 📜 圣旨（原始指令）
+## Original Command
 
 ```
-分析 CrewAI、AutoGen 和 LangGraph 这三个多 Agent 框架。
-重点关注：架构设计、Agent 通信方式、任务编排能力、可观测性、学习曲线。
-输出一份结构化的对比报告，包含推荐场景。
+Analyze the multi-agent frameworks CrewAI, AutoGen, and LangGraph.
+Focus on architecture, agent communication, orchestration ability,
+observability, and learning curve.
+Produce a structured comparison report with recommended use cases.
 ```
 
-**旨意 ID**：`JJC-20260220-003`
-**下旨时间**：2026-02-20 09:15:00
+**Task ID:** `JJC-20260220-003`  
+**Issued at:** 2026-02-20 09:15:00
 
 ---
 
-## 📋 中书省规划
+## Zhongshu Planning
 
-> 接旨后 45 秒内完成规划
+Planning completed within 45 seconds.
 
-**规划方案：**
+**Plan**
 
-| # | 子任务 | 派发部门 | 说明 |
+| # | Subtask | Department | Notes |
 |---|--------|----------|------|
-| 1 | 架构与通信机制调研 | ⚔️ 兵部 | 分析三个框架的核心架构、Agent 通信模式、代码组织 |
-| 2 | 数据采集与量化对比 | 💰 户部 | GitHub Stars、Contributors、Issue 响应时间、版本频率 |
-| 3 | 开发者体验深度评测 | ⚔️ 兵部 | 实际 Hello World 搭建、文档质量、学习曲线打分 |
-| 4 | 对比报告撰写 | 📝 礼部 | 整合数据，输出结构化 Markdown 报告 |
+| 1 | Architecture and communication research | Bingbu | Compare architecture, communication model, and code organization |
+| 2 | Data collection and quantitative comparison | Hubu | Gather stars, contributors, issue response times, and release cadence |
+| 3 | Developer-experience evaluation | Bingbu | Build quick-start examples and score docs plus learning curve |
+| 4 | Final report writing | Libu | Consolidate data into a structured Markdown report |
 
-**预计耗时**：25 分钟
-**预计 Token**：~18,000
+**Estimated duration:** 25 minutes  
+**Estimated tokens:** ~18,000
 
 ---
 
-## 🔍 门下省审议
+## Menxia Review
 
-> ⏱️ 审议耗时 32 秒
+Review duration: 32 seconds.
 
-### 第一轮：封驳 🚫
+### Round 1: rejected
 
-**封驳理由：**
-1. 缺少"可观测性"专项评测——旨意明确要求了这一维度，但规划中没有对应子任务
-2. 子任务 3 和子任务 1 有重叠（兵部两次调研），建议合并
-3. 建议增加"推荐场景"子任务，不能只有对比没有结论
+**Reasons for rejection**
+1. Observability was explicitly requested but had no dedicated evaluation step.
+2. Subtasks 1 and 3 overlapped and should be merged.
+3. The report needed explicit recommendation scenarios, not just comparison.
 
-**批注：** *"分析没有结论等于没分析。补上推荐场景再报。"*
+**Review note:** *"Analysis without recommendations is incomplete. Add recommendation scenarios and resubmit."*
 
-### 第二轮：准奏 ✅
+### Round 2: approved
 
-中书省修改后的方案：
+Updated plan:
 
-| # | 子任务 | 派发部门 | 变更 |
+| # | Subtask | Department | Change |
 |---|--------|----------|------|
-| 1 | 架构 + 通信 + 可观测性全维度技术调研 | ⚔️ 兵部 | 合并原 1+3，增加可观测性 |
-| 2 | 量化数据采集 | 💰 户部 | 不变 |
-| 3 | 对比报告 + 推荐场景 | 📝 礼部 | 增加推荐场景段落 |
+| 1 | Architecture + communication + observability research | Bingbu | Merged old 1 and 3, added observability |
+| 2 | Quantitative data collection | Hubu | Unchanged |
+| 3 | Comparison report + recommendation scenarios | Libu | Added final recommendation section |
 
-**门下省批语：** *"方案可行。注意兵部评测需覆盖可观测性维度，礼部结论需给出明确推荐。准奏。"*
+**Review note:** *"The plan is workable. Bingbu must explicitly cover observability, and Libu must provide clear recommendations. Approved."*
 
 ---
 
-## ⚔️ 各部执行结果
+## Department Outputs
 
-### 兵部 · 技术调研（耗时 8 分钟）
+### Bingbu: technical research (8 minutes)
 
 ```markdown
-## 架构对比
+## Architecture Comparison
 
 ### CrewAI
-- 架构：Role-based Agent + Sequential/Hierarchical Process
-- 通信：共享 Memory + Task 回调
-- 可观测性：基本日志，无内置看板
-- 优点：API 简洁，上手最快（5 分钟 Hello World）
-- 缺点：调试困难，复杂流程编排受限
+- Architecture: role-based agents with sequential or hierarchical processes
+- Communication: shared memory and task callbacks
+- Observability: basic logging, no built-in dashboard
+- Strength: very fast to learn and prototype
+- Weakness: harder to debug and less flexible for complex orchestration
 
 ### AutoGen
-- 架构：Conversational Agent + Group Chat
-- 通信：消息传递（Message-based）
-- 可观测性：AgentOps 集成可选，无内置看板
-- 优点：对话式交互自然，适合 brainstorm 场景
-- 缺点：群聊模式在任务型场景效率低
+- Architecture: conversational agents and group chat
+- Communication: message-based
+- Observability: optional AgentOps integration, no built-in dashboard
+- Strength: natural for collaborative brainstorming
+- Weakness: group chat is inefficient for strongly task-driven workflows
 
 ### LangGraph
-- 架构：State Machine + Graph-based Flow
-- 通信：State 传递（Graph edges）
-- 可观测性：LangSmith 集成，有 trace 功能
-- 优点：流程编排最灵活，支持循环和条件分支
-- 缺点：学习曲线陡峭，概念抽象
+- Architecture: state machine and graph-based flow
+- Communication: state propagation over graph edges
+- Observability: LangSmith tracing is available
+- Strength: the most flexible orchestration model
+- Weakness: steeper learning curve and more abstract concepts
 ```
 
-### 户部 · 量化数据（耗时 3 分钟）
+### Hubu: quantitative data (3 minutes)
 
 | 指标 | CrewAI | AutoGen | LangGraph |
 |------|--------|---------|-----------|
 | GitHub Stars | 24.3k | 38.5k | 12.1k |
 | Contributors | 180+ | 350+ | 90+ |
-| 最新版本 | v0.8.2 | v0.4.1 | v0.2.8 |
-| Issue 中位响应 | 2 天 | 3 天 | 1 天 |
-| 文档评分 | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Hello World 时间 | ~5 min | ~15 min | ~25 min |
+| Latest version | v0.8.2 | v0.4.1 | v0.2.8 |
+| Median issue response | 2 days | 3 days | 1 day |
+| Documentation score | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Hello world time | ~5 min | ~15 min | ~25 min |
 
-### 礼部 · 对比报告撰写（耗时 6 分钟）
+### Libu: report writing (6 minutes)
 
-> 礼部整合兵部 + 户部数据，产出最终报告格式。
+Libu consolidated the Bingbu and Hubu outputs into the final report structure.
 
 ---
 
-## 📮 最终奏折（尚书省汇总）
+## Final Memorial
 
-**奏折 ID**：`JJC-20260220-003`
-**总耗时**：22 分钟（规划 2 + 审议 3 + 执行 17）
-**总 Token**：15,800
+**Memorial ID:** `JJC-20260220-003`  
+**Total duration:** 22 minutes  
+**Total tokens:** 15,800
 
-### 执行摘要
+### Summary
 
-对 CrewAI、AutoGen、LangGraph 完成了架构、量化、体验三维度对比分析。门下省一次封驳（要求补充可观测性和推荐场景），修正后执行。
+The system completed a three-dimensional comparison across architecture, quantitative metrics, and developer experience. Menxia rejected the first plan because observability and recommendation scenarios were missing, then approved the revised version.
 
-### 推荐场景
+### Recommended Use Cases
 
-| 场景 | 推荐框架 | 理由 |
+| Scenario | Recommended framework | Reason |
 |------|----------|------|
-| 快速原型 | CrewAI | 上手最快，API 简洁 |
-| 对话式协作 | AutoGen | 天然适合多轮讨论 |
-| 复杂工作流 | LangGraph | 状态机 + 条件分支最灵活 |
-| 可靠性要求高 | **三省六部** | 唯一内置强制审核 + 实时看板 |
+| Rapid prototyping | CrewAI | Easiest onboarding and simplest API |
+| Conversation-heavy collaboration | AutoGen | Best fit for multi-turn discussion |
+| Complex workflow orchestration | LangGraph | Strongest support for state machines and branching |
+| High-reliability execution | **Edict** | Built-in mandatory review and a real-time dashboard |
 
-### 关键发现
+### Key Findings
 
-1. **没有内置审核机制是行业通病** —— 三个框架都依赖开发者自行添加 validation
-2. **可观测性普遍不足** —— 只有 LangGraph 通过 LangSmith 提供了较好的 trace
-3. **CrewAI 社区增长最快**，但文档深度不够
-4. **LangGraph 技术上最强**，但入门门槛高
+1. Built-in review is still uncommon across mainstream frameworks.
+2. Observability remains weak overall; LangGraph is strongest here because of LangSmith.
+3. CrewAI is the easiest entry point, but its documentation depth is limited.
+4. LangGraph is the most capable technically, but the onboarding cost is highest.
 
 ---
 
-*本案例基于真实运行记录整理，数据截至 2026 年 2 月。*
+*Based on a real run. Metrics reflect a February 2026 snapshot.*
